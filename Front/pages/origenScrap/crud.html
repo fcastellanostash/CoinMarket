@@ -1,0 +1,122 @@
+﻿<div ng-app="app" ng-controller="origenScrapCRUDController">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <ol class="breadcrumb pull-right">
+                    <li><a href="/#/blsp/dashboard">Home</a></li>
+                    <li><a ui-sref="blsp.origenScrap.list">Origen Scrap</a></li>
+                    <li class="active">{{PageTitle}}</li>
+                </ol>
+                <h1 class="page-header">{{PageTitle}}<small></small></h1>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div ng-model="successMessage" class="alert alert-success" role="alert" ng-show="successMessage">{{ successMessage }}</div>
+                <div ng-model="errorMessage" class="alert alert-danger" role="alert" ng-show="errorMessage">{{ errorMessage }}</div>
+            </div>
+            <form ng-submit="editAuthorForm.$valid && processForm()" class="form-horizontal" role="form" name="editAuthorForm" novalidate>
+                <div class="col-sm-12 col-md-8">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Origen de Scrap</h4>
+                        </div>
+                        <md-content layout-padding>
+                         
+                    
+                            <div layout-gt-xs="row">
+                                <md-input-container class="md-block" flex-gt-xs>
+                                    <label>Nombre</label>
+                                    <input type="text" ng-model="origenData.Descripcion" name="Nombre" required />
+                                    <div ng-messages="editAuthorForm.FirstName.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+                            </div>
+
+
+                            <div layout-gt-xs="row">
+
+                                <md-input-container class="md-block col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                                    <label>Maquina Actual</label>
+                                    <input type="text" ng-model="origenData.Maquina.Descripcion" name="Maquina" disabled />
+                                    <div ng-messages="editAuthorForm.FirstName.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+                            
+
+
+
+
+                                <md-input-container class="md-block col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                                    <label>Seleccionar Maquina</label>
+
+
+
+
+                                        <md-select ng-init="origenData.Maquina.Descripcion" ng-model="origenData.Maquina" name="Maquinas" multiple="false">
+                                            <md-option ng-value="maquina" ng-repeat="maquina in maquinas track by maquina.IDMaq">{{ maquina.Descripcion | capitalize }}</md-option>
+                                        </md-select>
+                                        <div ng-messages="newUserForm.Roles.$error">
+                                            <div ng-messages-include="pages/validation/text.html"></div>
+                                        </div>
+</md-input-container>
+                            </div>
+
+                            <div layout-gt-xs="row">
+
+
+                               
+
+
+
+                                <md-input-container class="cont-maquinas md-block col-lg-6 col-md-12 col-sm-12 col-xs-12" flex-gt-xs>
+                                    <label>Tipos Materiales Descartados</label>
+                                    <md-select ng-model="origenData.PSSTiposMaterial" name="TiposMaterial" multiple="true" required md-on-close="clearSearchTerm()"
+                                               data-md-container-class="selectdemoSelectHeader" ng-model-options="{trackBy: '$value.IDTipoMat' }">
+                                        <md-select-header class="demo-select-header">
+                                            <input ng-model="searchTerm"
+                                                   type="search"
+                                                   placeholder="Buscar Tipos de materiales.."
+                                                   class="demo-header-searchbox md-text">
+                                        </md-select-header>
+
+                                        <md-option ng-value="tipo" ng-repeat="tipo in tipos | orderBy:'Descripcion' | filter:searchTerm track by tipo.IDTipoMat">{{ tipo.Descripcion | capitalize }}</md-option>
+
+
+                                    </md-select>
+                                    <div ng-messages="newUserForm.Roles.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+
+
+
+
+                            </div>
+
+
+
+
+
+</md-content>
+                    </div>
+
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Acciones</h4>
+                        </div>
+                        <div class="panel-body">
+                            <button class="btn btn-block btn-primary" type="submit">{{SubmitButton}}</button>
+                            <button class="btn btn-block btn-danger" type="button" ng-click="deleteOrigen($event, origenData.IDOrigen);" ng-show="origenData.IDOrigen">Borrar Origen Scrap</button>
+                            <a class="btn btn-block btn-default" ui-sref="blsp.origenScrap.list">Volver</a>
+                        </div>
+                    </div>
+
+                  
+                </div>
+            </form>
+        </div>   
+    </div>
+</div>
