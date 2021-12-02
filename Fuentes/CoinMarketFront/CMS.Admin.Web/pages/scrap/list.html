@@ -1,0 +1,113 @@
+﻿<div ng-app="app" ng-controller="scrapController as aCtrl">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <ol class="breadcrumb pull-right">
+                    <li><a href="/#/blsp/dashboard">Home</a></li>
+                    <li class="active">Scrap</li>
+                </ol>
+                <h1 class="page-header">Scrap<small></small></h1>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div ng-model="successMessage" class="alert alert-success" role="alert" ng-show="successMessage">{{ successMessage }}</div>
+                <div ng-model="errorMessage" class="alert alert-danger" role="alert" ng-show="errorMessage">{{ errorMessage }}</div>
+            </div>
+
+
+            <div class="col-sm-12 col-md-4 right" style="float:right">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Buscar</h4>
+                </div>
+                <div class="panel-body">
+                    <md-input-container md-no-float class="md-block md-no-error search">
+                        <label>Buscar...</label>
+                        <input type="text" ng-model="searchQuery" ng-change="doSearch()">
+                    </md-input-container>
+                </div>
+            </div>
+
+          
+
+            <div class="col-sm-12 col-md-12">
+                <div class="panel panel-inverse">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Scrap</h4>
+                    </div>
+
+                    <!--<button style="position: absolute;top: 4px;right: 18px;" type="button" class="btn btn-default" ng-csv="Scraps" csv-header="['Id', 'Fecha', 'OP', 'Maquina', 'Operador', 'Mat', 'Origen', 'Peso', 'Observaciones', 'Fecha de Registro']" filename="Scrap.csv" charset="utf-8"><span class="glyphicon glyphicon-download-alt">&nbsp;</span>Descargar CSV</button>-->
+
+                    <button style="position: absolute;top: 4px;right: 18px;" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary pull-right ">Descargar XLS</button>  
+
+                    <!--<button type="submit" style="position: absolute;top: 4px;right: 58px;" ng-click="deleteMultiple(selected)"  class="btn btn-primary pull-right ">Borrar Registros</button>-->
+
+                    <button style="position: absolute;top: 4px;right: 158px;" class="btn btn-primary pull-right  btn-danger" type="button" ng-click="deleteMultiple($event, selected);" ng-show = "show">Borrar Registros</button>
+
+
+                    <table class="table table-bordered dataTable" datatable="" dt-options="aCtrl.dtOptions" dt-columns="aCtrl.dtColumns" dt-instance="aCtrl.dtInstance"></table>  <!--dt-column-defs="dtColumnDefs"-->
+
+
+                    
+                   
+                
+                
+
+                
+                           </div>
+            </div>
+           
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Seleccionar Fechas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-sm-12 col-md-12 no-padding">
+
+                        <div class="panel col-sm-12 col-md-6 panel-inverse" style="padding:0px">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Desde</h4>
+                            </div>
+                            <div class="panel-body">
+                                <md-input-container md-no-float class="md-block md-no-error">
+                                    <input type="date" ng-model="dateDesdeinp" value="{{dateDesdeinp}}">
+
+                                </md-input-container>
+                            </div>
+                        </div>
+                        <div class="panel col-sm-12 col-md-6 panel-inverse" style="padding:0px">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Hasta</h4>
+                            </div>
+                            <div class="panel-body">
+                                <md-input-container md-no-float class="md-block md-no-error">
+                                    <input type="date" ng-model="dateHastainp">
+
+                                </md-input-container>
+                            </div>
+                        </div>
+
+                        
+
+
+                        
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button"  class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" ng-click="doSearch2()" class="btn btn-primary">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

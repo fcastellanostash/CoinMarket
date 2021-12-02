@@ -1,0 +1,61 @@
+﻿<div ng-app="app">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 headerCripto">
+
+                <h1 class="page-header">Cotizacion de Cryptomonedas <small></small></h1>
+                
+                <div>
+                    Moneda de Conversión
+
+                    <select name="repeatSelect" id="repeatSelect" ng-model="convert">
+                        <option selected value="USD">USD</option>
+
+                        <option ng-repeat="cotizacion in Cotizaciones" value="{{cotizacion.symbol}}">{{cotizacion.symbol}}</option>
+                    </select>
+                </div>
+            </div>
+           
+            <div class="col-md-12 col-sm-12">
+                <table class="table table-bordered dataTable stripe" datatable="ng" dt-instance="dtInstance" dt-options="dtOptions">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Logo</th>
+                            <th>Nombre</th>
+                            <th>Precio {{convert}}</th>
+                            <th>24hs</th>
+                            <th>7D</th>
+                            <th>Ultima Actualización</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cotizacion in Cotizaciones" ng-init="$index">
+                            <td>{{cotizacion.id}}</td>
+                            <td><img width="30" class="coin-logo" src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{cotizacion.id}}.png" loading="lazy" alt="BTC logo"></td>
+                            <td>{{cotizacion.name | capitalize}}<span> {{cotizacion.symbol}}</span></td>
+                            <td><strong>${{cotizacion.quote[convert].price | decimal}} </strong></td>
+                            <td ng-class="(cotizacion.quote[convert].percent_change_24h > 0) ? 'bigger' : 'smaller'">{{cotizacion.quote[convert].percent_change_24h}}%</td>
+                            <td ng-class="(cotizacion.quote[convert].percent_change_24h > 0) ? 'bigger' : 'smaller'">{{cotizacion.quote[convert].percent_change_7d}}%</td>
+
+                            <td>{{cotizacion.last_updated | date:"MM/dd/yyyy  h:mma"}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-4 col-sm-6">
+
+            </div>
+
+
+
+
+
+
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,261 @@
+﻿<div ng-app="app" ng-controller="MaquinasCRUDController">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <ol class="breadcrumb pull-right">
+                    <li><a href="/#/blsp/dashboard">Home</a></li>
+                    <li><a ui-sref="blsp.clients.list">Maquinas</a></li>
+                    <li class="active">{{PageTitle}}</li>
+                </ol>
+                <h1 class="page-header">{{PageTitle}}<small></small></h1>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                <div ng-model="successMessage" class="alert alert-success" role="alert" ng-show="successMessage">{{ successMessage }}</div>
+                <div ng-model="errorMessage" class="alert alert-danger" role="alert" ng-show="errorMessage">{{ errorMessage }}</div>
+            </div>
+            <form ng-submit="editAuthorForm.$valid && processForm()" class="form-horizontal" role="form" name="editAuthorForm" novalidate>
+                <div class="col-sm-12 col-md-8">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Información de la Maquina</h4>
+                        </div>
+                        <md-content layout-padding>
+                         
+                    
+                            <div layout-gt-xs="row">
+                                <md-input-container class="md-block" flex-gt-xs>
+                                    <label>Nombre</label>
+                                    <input type="text" ng-model="maquinaData.Descripcion" name="Nombre" required />
+                                    <div ng-messages="editAuthorForm.FirstName.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+                             
+
+                                <md-input-container class="md-block flex-50" flex-gt-xs>
+                                    <label>Area</label>
+                                    <md-select ng-init="maquinaData.PSSAreas.Descripcion" ng-model="maquinaData.PSSAreas" name="Areas" multiple="false" required>
+                                        <md-option ng-value="area" ng-repeat="area in areas track by area.IDArea" ng-selected="area.Descripcion == maquinaData.PSSAreas.Descripcion" >{{ area.Descripcion | capitalize }}</md-option>
+                                    </md-select>
+                                    <div ng-messages="newUserForm.Roles.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+
+
+
+                             </div>
+                            <div layout-gt-xs="row">
+
+                                <md-input-container class="md-block" flex-gt-xs>
+                                    <label>Recurso</label>
+                                    <input type="text" ng-model="maquinaData.Recurso" name="Recurso" required />
+                                    <div ng-messages="editAuthorForm.FirstName.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+
+
+
+
+                            </div>
+
+
+                            <div layout-gt-xs="row">
+
+                                <md-input-container class="cont-maquinas md-block col-lg-6 col-md-12 col-sm-12 col-xs-12" flex-gt-xs>
+                                    <label>JobTrack</label>
+                                    <md-select ng-model="maquinaData.PSSJobTrack" name="JobTrack" multiple="true" required md-on-close="clearSearchTerm()"
+                                               data-md-container-class="selectdemoSelectHeader" ng-model-options="{trackBy: '$value.IDJobTrack' }">
+                                        
+                                        <md-select-header class="demo-select-header">
+                                            <input ng-model="searchTerm"
+                                                   type="search"
+                                                   placeholder="Buscar JobTrack.."
+                                                   class="demo-header-searchbox md-text">
+                                        </md-select-header>
+                                        
+                                        <md-option ng-value="jobtrack" ng-repeat="jobtrack in jobtrack | orderBy:'Descripcion' | filter:searchTerm track by jobtrack.IDJobTrack">{{ jobtrack.Descripcion | capitalize }}</md-option>
+                                    </md-select>
+                                    <div ng-messages="newUserForm.Roles.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+
+
+
+
+                            </div>
+                            <div layout-gt-xs="row">
+
+
+
+
+                                <md-input-container class="cont-maquinas md-block col-lg-6 col-md-12 col-sm-12 col-xs-12" flex-gt-xs>
+                                    <label>Origenes de Scrap</label>
+
+
+                                    <md-select ng-model="maquinaData.PSSOrigenesScrap" name="Origenes" multiple="true" required md-on-close="clearSearchTerm()"
+                                               data-md-container-class="selectdemoSelectHeader" ng-model-options="{trackBy: '$value.IDOrigen' }">
+
+                                        <md-select-header class="demo-select-header">
+                                            <input ng-model="searchTerm"
+                                                   type="search"
+                                                   placeholder="Buscar Origen de Scrap.."
+                                                   class="demo-header-searchbox md-text">
+                                        </md-select-header>
+                                        <md-option ng-value="origen" ng-repeat="origen in origenes | orderBy:'Descripcion' | filter:searchTerm track by origen.IDOrigen">{{ origen.Descripcion | capitalize }}</md-option>
+
+
+                                    </md-select>
+                                    <div ng-messages="newUserForm.Roles.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+
+                            </div>
+
+
+
+
+
+
+                            <div layout-gt-xs="row">
+
+
+                               
+
+                                <md-input-container class="cont-maquinas md-block col-lg-6 col-md-12 col-sm-12 col-xs-12" flex-gt-xs>
+                                    <label>Tipos Materiales</label>
+                                    <md-select ng-model="maquinaData.PSSTiposMaterial" name="TiposMaterial" multiple="true" required md-on-close="clearSearchTerm()"
+                                               data-md-container-class="selectdemoSelectHeader" ng-model-options="{trackBy: '$value.IDTipoMat' }">
+                                        <md-select-header class="demo-select-header">
+                                            <input ng-model="searchTerm"
+                                                   type="search"
+                                                   placeholder="Buscar Tipos de materiales.."
+                                                   class="demo-header-searchbox md-text">
+                                        </md-select-header>
+
+                                        <md-option ng-value="tipo" ng-repeat="tipo in tipos | orderBy:'Descripcion' | filter:searchTerm track by tipo.IDTipoMat">{{ tipo.Descripcion | capitalize }}</md-option>
+
+
+                                    </md-select>
+                                    <div ng-messages="newUserForm.Roles.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+
+
+
+                            </div>
+                            <div layout-gt-xs="row">
+
+
+
+                                <md-input-container class="cont-maquinas md-block col-lg-6 col-md-12 col-sm-12 col-xs-12" flex-gt-xs>
+                                    <label>Actividad</label>
+                                    <md-select ng-model="maquinaData.PSSActividades" name="Actividad" multiple="true" md-on-close="clearSearchTerm()"
+                                               data-md-container-class="selectdemoSelectHeader" required ng-model-options="{trackBy: '$value.IdActividad' }">
+
+
+                                        <md-select-header class="demo-select-header">
+                                            <input ng-model="searchTerm"
+                                                   type="search"
+                                                   placeholder="Buscar Actividad.."
+                                                   class="demo-header-searchbox md-text">
+                                        </md-select-header>
+
+                                        <md-option ng-value="actividad" ng-repeat="actividad in actividades | orderBy:'Descripcion' | filter:searchTerm track by actividad.IdActividad">{{ actividad.Descripcion | capitalize }}</md-option>
+                                    </md-select>
+                                    <div ng-messages="newUserForm.Roles.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+
+
+
+
+                            </div>
+                            <div layout-gt-xs="row">
+
+
+
+
+                                <md-input-container class="cont-maquinas md-block col-lg-6 col-md-12 col-sm-12 col-xs-12" flex-gt-xs>
+                                    <label>Operadores de esta Maquina</label>
+                                    <md-select ng-model="maquinaData.PSSOperadores" name="Operadores" multiple="true" md-on-close="clearSearchTerm()"
+                                               data-md-container-class="selectdemoSelectHeader" required ng-model-options="{trackBy: '$value.IdOperador' }">
+
+                                        <md-select-header class="demo-select-header">
+                                            <input ng-model="searchTerm"
+                                                   type="search"
+                                                   placeholder="Buscar Operador.."
+                                                   class="demo-header-searchbox md-text">
+                                        </md-select-header>
+                                        <md-option ng-value="operador" ng-repeat="operador in operadores | orderBy:'Apellido' | filter:searchTerm track by operador.IdOperador">{{ operador.Apellido | capitalize }} {{ operador.Nombre | capitalize }}</md-option>
+                                    </md-select>
+                                    <div ng-messages="newUserForm.Roles.$error">
+                                        <div ng-messages-include="pages/validation/text.html"></div>
+                                    </div>
+                                </md-input-container>
+
+
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</md-content>
+                    </div>
+
+                    
+                </div>
+                <div class="col-sm-12 col-md-4">
+                    <div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Acciones</h4>
+                        </div>
+                        <div class="panel-body">
+                            <button class="btn btn-block btn-primary" type="submit">{{SubmitButton}}</button>
+                            <button class="btn btn-block btn-danger" type="button" ng-click="deleteMaquina($event, maquinaData.IDMaq);" ng-show="maquinaData.IDMaq">Borrar Maquina</button>
+                            <a class="btn btn-block btn-default" ui-sref="blsp.maquinas.list">Volver</a>
+                        </div>
+                    </div>
+
+                    <!--<div class="panel panel-inverse">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">Author Image</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="img-holder">
+                                <img src="{{authorImage}}" alt="Featured Image" class="img-responsive img-preview" />
+                            </div>
+                            <a ng-click="ChooseFile()" class="btn btn-sm btn-block btn-primary">Change author image</a>
+                        </div>
+                    </div>-->
+
+                    <!--<pre>{{maquinaData | json}}</pre>-->
+                </div>
+            </form>
+        </div>   
+    </div>
+</div>
